@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png" />
     <div class="wl-gantt-demo">
       <wlGantt
         ref="wl-gantt-demo"
