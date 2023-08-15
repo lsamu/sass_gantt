@@ -3,4 +3,12 @@ node_modules
 dist
 dist-ssr
 *.local
+.vscode
+
+yarn-*
+*-lock.json
 yarn.lock
+coverage
+
+.cz-config.js
+_v1

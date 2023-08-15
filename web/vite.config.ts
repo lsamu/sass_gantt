@@ -1,43 +1,48 @@
-import { defineConfig, loadEnv } from "vite";
-import path from "path";
-import vue from '@vitejs/plugin-vue2'
-import AutoImport from 'unplugin-auto-import/vite'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import path from 'path';
+import glob from 'fast-glob';
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(async () => ({
   plugins: [
-    vue(),
-    AutoImport({
-      imports: ["vue", "vue-router", "pinia"]
-    }),
+    vue()
   ],
-  base: "./",
-  build: {
-    emptyOutDir: false,
-    chunkSizeWarningLimit: 1024 * 5,
-    rollupOptions: {
-      // 确保外部化处理那些你不想打包进库的依赖
-      //external: ["vue", "vue-router","vuex","@vue/composition-api", "element-ui", "echart"],
-      output: {
-        // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
-        globals: {
-          vue: "Vue",
-        },
-      },
-    },
-  },
+
   resolve: {
-    alias: [
-      {
-        find: "@",
-        replacement: path.resolve(__dirname, "src"),
-      },
-    ],
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+      components: path.resolve(__dirname, 'src/components'),
+      styles: path.resolve(__dirname, 'src/styles'),
+      utils: path.resolve(__dirname, 'src/utils')
+    }
   },
-  define: {
-    "process.env": process.env,
+
+  optimizeDeps: {
+    include: (
+      await glob(['dayjs/locale/*.js'], {
+        cwd: path.resolve(__dirname, 'node_modules')
+      })
+    ).map(p => p.replace(/\.js$/, ''))
   },
-  server: {
-    port: 8081,
-  },
-});
+
+  build: {
+    // sourcemap: true,
+    target: 'modules',
+    minify: true,
+    lib: {
+      entry: path.resolve(__dirname, 'src/index.ts'),
+      name: 'index',
+      fileName: format => `index.${format}.js`
+    },
+    rollupOptions: {
+      external: ['vue'],
+      preserveEntrySignatures: 'strict',
+      output: {
+        globals: {
+          vue: 'Vue'
+        }
+      }
+    }
+  }
+}));

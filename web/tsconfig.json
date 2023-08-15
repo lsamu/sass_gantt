@@ -1,16 +1,57 @@
 {
   "compilerOptions": {
-    "types": ["node"],
     "target": "esnext",
+    "useDefineForClassFields": true,
     "module": "esnext",
     "moduleResolution": "node",
-    //"strict": true,
+    "strict": false,
     "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": ["esnext", "dom"],
-    "noImplicitAny": false // 防止对象隐式具有'任何'类型
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "baseUrl": ".",
+    "allowJs": true,
+    "types": [
+      "node",
+    ],
+    "typeRoots": [
+      "./types",
+      "./node_moudles/@types/",
+      "./src/typings"
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "components/*": [
+        "./src/components/*"
+      ],
+      "styles/*": [
+        "./src/styles/*"
+      ],
+      "utils/*": [
+        "./src/utils/*"
+      ]
+    }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue","./auto-imports.d.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/components/**/*.vue",
+    "src/pages/**/*.vue",
+    "types/**/*.d.ts",
+    "demo/demo.vue",
+    "demo/components/*.vue",
+    "demo/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/old/**",
+    "demo/App.vue"
+  ]
 }
