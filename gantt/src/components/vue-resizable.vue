@@ -1,11 +1,8 @@
 <template>
-  <div class="resizable-component"
-       :style="style">
+  <div class="resizable-component" :style="style">
     <slot></slot>
     <template v-for="el in active">
-      <div v-show="!maximize"
-           :class="'resizable-'+el"
-           :key="el"></div>
+      <div v-show="!maximize" :class="'resizable-' + el" :key="el"></div>
     </template>
   </div>
 </template>
@@ -74,7 +71,7 @@ export default {
       type: Boolean
     }
   },
-  data () {
+  data() {
     return {
       w: this.width, h: this.height,
       minW: this.minWidth, minH: this.minHeight,
@@ -89,39 +86,39 @@ export default {
     }
   },
   watch: {
-    maxWidth (value) {
+    maxWidth(value) {
       this.maxW = value;
     },
-    maxHeight (value) {
+    maxHeight(value) {
       this.maxH = value;
     },
-    minWidth (value) {
+    minWidth(value) {
       this.minW = value;
     },
-    minHeight (value) {
+    minHeight(value) {
       this.minH = value;
     },
-    width (value) {
+    width(value) {
       typeof value === "number" && (this.w = value);
     },
-    height (value) {
+    height(value) {
       typeof value === "number" && (this.h = value);
     },
-    left (value) {
+    left(value) {
       typeof value === "number" && (this.l = value);
     },
-    top (value) {
+    top(value) {
       typeof value === "number" && (this.t = value);
     },
-    dragSelector (selector) {
+    dragSelector(selector) {
       this.setupDragElements(selector);
     },
-    maximize (value) {
+    maximize(value) {
       this.setMaximize(value);
       this.emitEvent('maximize', { state: value });
     }
   },
-  mounted () {
+  mounted() {
     if (!this.width) {
       this.w = this.$el.parentElement.clientWidth;
     } else {
@@ -145,14 +142,14 @@ export default {
     document.documentElement.addEventListener('mouseup', this.handleUp, true);
     this.emitEvent('mount');
   },
-  beforeDestroy () {
+  beforeDestroy() {
     document.documentElement.removeEventListener('mousemove', this.handleMove, true);
     document.documentElement.removeEventListener('mousedown', this.handleDown, true);
     document.documentElement.removeEventListener('mouseup', this.handleUp, true);
     this.emitEvent('destroy');
   },
   computed: {
-    style () {
+    style() {
       return {
         width: typeof this.w === "number" ? this.w + 'px' : this.w,
         height: typeof this.h === "number" ? this.h + 'px' : this.h,
@@ -162,7 +159,7 @@ export default {
     }
   },
   methods: {
-    setMaximize (value) {
+    setMaximize(value) {
       const parentEl = this.$el.parentElement;
       if (value) {
         this.prevState = { w: this.w, h: this.h, l: this.l, t: this.t };
@@ -173,7 +170,7 @@ export default {
         this.restoreSize();
       }
     },
-    restoreSize () {
+    restoreSize() {
       if (this.prevState) {
         this.l = this.prevState.l;
         this.t = this.prevState.t;
@@ -181,17 +178,17 @@ export default {
         this.w = this.prevState.w;
       }
     },
-    setupDragElements (selector) {
+    setupDragElements(selector) {
       const nodeList = this.$el.querySelectorAll(selector);
       nodeList.forEach(el => {
         el.classList.add('drag-el');
       });
       this.dragElements = Array.prototype.slice.call(nodeList);
     },
-    emitEvent (eventName, additionalOptions) {
+    emitEvent(eventName, additionalOptions) {
       this.$emit(eventName, { eventName, left: this.l, top: this.t, width: this.w, height: this.h, ...additionalOptions });
     },
-    handleMove (event) {
+    handleMove(event) {
       if (this.resizeState !== 0) {
         if (this.maximize && this.prevState) {
           const parentWidth = this.parent.width;
@@ -251,7 +248,7 @@ export default {
         this.emitEvent(eventName);
       }
     },
-    handleDown (event) {
+    handleDown(event) {
       for (let elClass in ELEMENT_MASK) {
         if (this.$el.contains(event.target) && (event.target.closest && event.target.closest(`.${elClass}`) || event.target.classList.contains(elClass))) {
           elClass === 'drag-el' && (this.dragState = true);
@@ -269,7 +266,7 @@ export default {
         }
       }
     },
-    handleUp () {
+    handleUp() {
       if (this.resizeState !== 0) {
         this.resizeState = 0;
         document.body.style.cursor = '';
@@ -287,7 +284,8 @@ export default {
 .resizable-component {
   position: relative;
 }
-.resizable-component > .resizable-r {
+
+.resizable-component>.resizable-r {
   display: block;
   position: absolute;
   z-index: 90;
@@ -301,7 +299,8 @@ export default {
   top: 0;
   height: 100%;
 }
-.resizable-component > .resizable-rb {
+
+.resizable-component>.resizable-rb {
   display: block;
   position: absolute;
   touch-action: none;
@@ -315,7 +314,8 @@ export default {
   bottom: -6px;
   z-index: 91;
 }
-.resizable-component > .resizable-b {
+
+.resizable-component>.resizable-b {
   display: block;
   position: absolute;
   z-index: 90;
@@ -329,7 +329,8 @@ export default {
   width: 100%;
   left: 0;
 }
-.resizable-component > .resizable-lb {
+
+.resizable-component>.resizable-lb {
   display: block;
   position: absolute;
   touch-action: none;
@@ -343,7 +344,8 @@ export default {
   bottom: -6px;
   z-index: 91;
 }
-.resizable-component > .resizable-l {
+
+.resizable-component>.resizable-l {
   display: block;
   position: absolute;
   z-index: 90;
@@ -357,7 +359,8 @@ export default {
   height: 100%;
   top: 0;
 }
-.resizable-component > .resizable-lt {
+
+.resizable-component>.resizable-lt {
   display: block;
   position: absolute;
   touch-action: none;
@@ -371,7 +374,8 @@ export default {
   top: -6px;
   z-index: 91;
 }
-.resizable-component > .resizable-t {
+
+.resizable-component>.resizable-t {
   display: block;
   position: absolute;
   z-index: 90;
@@ -385,7 +389,8 @@ export default {
   width: 100%;
   left: 0;
 }
-.resizable-component > .resizable-rt {
+
+.resizable-component>.resizable-rt {
   display: block;
   position: absolute;
   touch-action: none;
@@ -398,5 +403,4 @@ export default {
   right: -6px;
   top: -6px;
   z-index: 91;
-}
-</style>
+}</style>

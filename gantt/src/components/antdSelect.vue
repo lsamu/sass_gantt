@@ -1,25 +1,11 @@
 <template>
-    <a-select
-      v-model="selectValue"
-      mode="multiple"
-      style="width: 100%"
-      placeholder="输入用户名"
-      option-label-prop="label"
-      :labelInValue="true"
-      @search="fetchUser"
-      :filterOption="handleFilter"
-       @dropdownVisibleChange="handleVisibleChange"
-    >
-      <a-select-option
-        v-for="(item) in option"
-        :key="item.key"
-        :value="item.key"
-        :label="item.label"
-      >
-        <span role="img" aria-label="China">🇨🇳</span>
-        {{ item.label }}
-      </a-select-option>
-    </a-select>
+  <a-select v-model="selectValue" mode="multiple" style="width: 100%" placeholder="输入用户名" option-label-prop="label"
+    :labelInValue="true" @search="fetchUser" :filterOption="handleFilter" @dropdownVisibleChange="handleVisibleChange">
+    <a-select-option v-for="(item) in option" :key="item.key" :value="item.key" :label="item.label">
+      <span role="img" aria-label="China">🇨🇳</span>
+      {{ item.label }}
+    </a-select-option>
+  </a-select>
 </template>
 
 <script>
@@ -27,16 +13,16 @@ export default {
   props: {
     defaultValue: {
       type: Array,
-      default () {
+      default() {
         return []
       }
     }
   },
-  data () {
+  data() {
     return {
       valueChange: false,
-      selectValue: [ ],
-      option: [ ]
+      selectValue: [],
+      option: []
     }
   },
   computed: {
@@ -45,34 +31,34 @@ export default {
   watch: {
     defaultValue: {
       immediate: true,
-      handler () {
+      handler() {
         this.pushDefaultToOption()
       }
     },
-    selectValue () {
+    selectValue() {
       // this.handleChange()
       this.valueChange = true
     }
   },
   methods: {
-    findObj (key) {
+    findObj(key) {
       // 在option中查找数据
       return this.option.find(o => {
         return o.userId === key
       })
     },
-    findObjFromDefault (key) {
+    findObjFromDefault(key) {
       // 在defaultValue中查找数据
       return this.defaultValue.find(o => {
         return o.userId === key
       })
     },
-    handleVisibleChange (visible) {
+    handleVisibleChange(visible) {
       if (!visible) {
         this.handleChange()
       }
     },
-    handleChange () {
+    handleChange() {
       let value = []
 
       if (this.valueChange) {
@@ -88,8 +74,7 @@ export default {
         this.pushDefaultToOption()
       }
     },
-    handleFilter (inputValue, option) {
-      console.log(arguments)
+    handleFilter(inputValue, option) {
       // 数据筛选
       let obj = this.findObj(option.key)
       if (obj && (obj.userName.indexOf(inputValue) >= 0 || obj.userNumber.indexOf(inputValue) >= 0 || obj.userId.indexOf(inputValue) >= 0)) {
@@ -98,7 +83,7 @@ export default {
         return false
       }
     },
-    fetchUser () {
+    fetchUser() {
       // 出发搜素接口
       this.option = [
         {
@@ -123,7 +108,7 @@ export default {
         }
       ]
     },
-    pushDefaultToOption () {
+    pushDefaultToOption() {
       // 默认使用传入数据作为option
       this.option = []
       this.valueChange = false
@@ -143,6 +128,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -1,36 +1,23 @@
 <template>
-  <el-popover popper-class="cell-time"
-              placement="bottom"
-              width="330"
-              ref="popup"
-              @show="handleShow"
-              trigger="click">
+  <el-popover popper-class="cell-time" placement="bottom" width="330" ref="popup" @show="handleShow" trigger="click">
     <div>
       <!-- <el-calendar class="cell-time-calender"
                    v-model="date"
                    @input="change"
                    ref="calendar">
       </el-calendar> -->
-      <DatePicker v-model="date"
-                  ref="datePicker"
-                  style="padding: 0 0 20px;"></DatePicker>
+      <DatePicker v-model="date" ref="datePicker" style="padding: 0 0 20px;"></DatePicker>
       <div class="cell-time-group">
-        <el-button size="medium"
-                   @click="handleCancel">取消</el-button>
-        <el-button type="primary"
-                   size="medium"
-                   style="margin-left: 20px;"
-                   @click="handleOk">确定</el-button>
+        <el-button size="medium" @click="handleCancel">取消</el-button>
+        <el-button type="primary" size="medium" style="margin-left: 20px;" @click="handleOk">确定</el-button>
       </div>
 
     </div>
 
-    <span slot="reference"
-          class="cell-label">
-      {{row[field.prop].format('YYYY-MM-DD')}}
+    <span slot="reference" class="cell-label">
+      {{ row[field.prop].format('YYYY-MM-DD') }}
     </span>
   </el-popover>
-
 </template>
 
 <script>
@@ -71,7 +58,7 @@ export default {
       if (
         this.row[this.field.prop] &&
         this.date.format("YYYY-MM-DD") !=
-          this.row[this.field.prop].format("YYYY-MM-DD")
+        this.row[this.field.prop].format("YYYY-MM-DD")
       ) {
         this.$emit("change", this.date);
       }
@@ -94,12 +81,15 @@ export default {
   text-align: center;
   padding: 4px;
 }
+
 .cell-time-calender .el-calendar-table th {
   text-align: center;
 }
+
 .cell-time-group {
   text-align: right;
 }
+
 .cell-time .el-popover__title {
   display: none;
 }

@@ -5,12 +5,12 @@ export default {
   props: {
     config: {
       type: Object,
-      default () {
+      default() {
         return {}
       }
     }
   },
-  render () {
+  render() {
     return (
       <el-table-column {{ ...config }}
       >
@@ -20,5 +20,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

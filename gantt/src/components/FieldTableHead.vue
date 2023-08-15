@@ -1,14 +1,11 @@
 <template>
   <div class="header">
-    <FieldTableHeadItem v-for="(column, index) in localColumns"
-                        :key="index"
-                        :column="column"
-                        @sizeChange="(size) => { $emit('sizeChange', { index: index, size: size })}">
+    <FieldTableHeadItem v-for="(column, index) in localColumns" :key="index" :column="column"
+      @sizeChange="(size) => { $emit('sizeChange', { index: index, size: size }) }">
 
     </FieldTableHeadItem>
 
   </div>
-
 </template>
 
 <script>
@@ -20,7 +17,7 @@ export default {
   props: {
     columns: {
       type: Array,
-      default () {
+      default() {
         return []
       }
     }
@@ -31,23 +28,22 @@ export default {
   watch: {
     columns: {
       immediate: true,
-      handler () {
+      handler() {
         this.localColumns = JSON.parse(JSON.stringify(this.columns))
       }
     }
   },
-  data () {
+  data() {
     return {
       localColumns: []
     }
   },
   methods: {
-    resizeMove () {
-      console.log(arguments)
+    resizeMove() {
+  
     }
   }
 }
 </script>
 
-<style>
-</style>
+<style></style>

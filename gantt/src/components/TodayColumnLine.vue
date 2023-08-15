@@ -1,6 +1,5 @@
 <template>
-  <div class="today-column-line"
-       :style="style"></div>
+  <div class="today-column-line" :style="style"></div>
 </template>
 
 <script>
@@ -9,25 +8,25 @@ export default {
   props: {
     timeType: {
       type: String,
-      default () {
+      default() {
         return 'day' // week month year
       }
     },
     cellWidth: {
       type: Number,
-      default () {
+      default() {
         return 50
       }
     },
     offsetX: {
       type: Number,
-      default () {
+      default() {
         return 50
       }
     },
   },
   computed: {
-    style () {
+    style() {
       let lineWidth = this.cellWidth / 4
       if (this.timeType === 'year') {
         lineWidth = this.cellWidth / 40
@@ -49,7 +48,7 @@ export default {
       }
     }
   },
-  data () {
+  data() {
     return {
       lineWidth: 10
     }

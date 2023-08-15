@@ -1,32 +1,22 @@
 <template>
-
-  <el-popover popper-class="cell-input"
-              placement="bottom" class="cell-left"
-              width="400"
-              trigger="click">
+  <el-popover popper-class="cell-input" placement="bottom" class="cell-left" width="400" trigger="click">
     <div>
       <div style="margin:  20px 0;">
-        <el-input v-model="input"
-                  :autofocus="true"
-                  placeholder="请输入内容"></el-input>
+        <el-input v-model="input" :autofocus="true" placeholder="请输入内容"></el-input>
 
       </div>
 
       <div class="cell-input-group">
         <el-button disabled>取消</el-button>
-        <el-button type="primary"
-                   style="margin-left: 20px;"
-                   disabled>确定</el-button>
+        <el-button type="primary" style="margin-left: 20px;" disabled>确定</el-button>
       </div>
 
     </div>
 
-    <span slot="reference"
-          class="ellipsis-label">
+    <span slot="reference" class="ellipsis-label">
       {{ row[field.prop] }}
     </span>
   </el-popover>
-
 </template>
 
 <script>
@@ -35,18 +25,18 @@ export default {
   props: {
     row: {
       type: Object,
-      default () {
+      default() {
         return {}
       }
     },
     field: {
       type: Object,
-      default () {
+      default() {
         return {}
       }
     }
   },
-  data () {
+  data() {
     return {
       input: ''
     }
@@ -54,7 +44,7 @@ export default {
   watch: {
     row: {
       immediate: true,
-      handler () {
+      handler() {
         this.input = this.row[this.field.prop]
       }
     }
@@ -72,17 +62,21 @@ export default {
   text-align: center;
   padding: 4px;
 }
+
 .cell-input-calender .el-calendar-table th {
   text-align: center;
 }
+
 .cell-input-group {
   text-align: right;
 }
+
 .cell-label.edit {
   cursor: pointer;
 }
+
 .ellipsis-label {
- white-space: nowrap;
+  white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   word-break: break-all;

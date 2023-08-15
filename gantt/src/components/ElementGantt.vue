@@ -11,24 +11,24 @@ export default {
     tableData: Array,
     rowKey: {
       type: String,
-      default () {
+      default() {
         return 'id'
       }
     },
     timeType: {
       type: String,
-      default () {
+      default() {
         return 'day' // week month year
       }
     },
     columns: {
       type: Array,
-      default () {
+      default() {
         return []
       }
     }
   },
-  data () {
+  data() {
     return {
       cellWidth: 30, // 单元格宽度
       barHeight: 20, // 进度条高度
@@ -43,24 +43,24 @@ export default {
   },
   computed: {},
   watch: {
-    tableData () {
+    tableData() {
       this.getTimeColumns()
     },
-    timeType () {
+    timeType() {
       this.getTimeColumns()
     }
   },
-  created () {
+  created() {
     this.getTimeColumns()
   },
   methods: {
-    getYearWeek (a, b, c) {
+    getYearWeek(a, b, c) {
       var date1 = new Date(a, parseInt(b) - 1, c)
       var date2 = new Date(a, 0, 1)
       var d = Math.round((date1.valueOf() - date2.valueOf()) / 86400000)
       return Math.ceil((d + (date2.getDay() + 1 - 1)) / 7)
     },
-    getTimeColumns () {
+    getTimeColumns() {
       // 日期表头
       // 表头
       let columns = []
@@ -76,13 +76,13 @@ export default {
         let val = startTime.add(d, 'day')
         dayColumns.push({
           label:
-              this.timeType === 'week'
-                ? this.getYearWeek(
-                  val.format('YYYY'),
-                  parseInt(val.format('MM')) + 1,
-                  val.format('DD')
-                ).toString()
-                : val.format('YYYY-MM-DD'),
+            this.timeType === 'week'
+              ? this.getYearWeek(
+                val.format('YYYY'),
+                parseInt(val.format('MM')) + 1,
+                val.format('DD')
+              ).toString()
+              : val.format('YYYY-MM-DD'),
           width: this.cellWidth,
           prop: val.format('YYYY-MM-DD'),
           slot: 'day',
@@ -138,7 +138,7 @@ export default {
           children: children
         })
       }
-      console.log('setTimeColumns')
+    
       if (this.timeType === 'day') {
         this.timeColumns = yearColumns
       } else if (this.timeType === 'month') {
@@ -158,23 +158,22 @@ export default {
         this.timeColumns = yearColumns
       }
     },
-    maxTime (t1, t2) {
+    maxTime(t1, t2) {
       if (t1) {
         return t1.diff(t2, 'millisecond') > 0 ? t1 : t2
       } else {
         return t2
       }
     },
-    minTime (t1, t2) {
+    minTime(t1, t2) {
       if (t1) {
         return t1.diff(t2, 'millisecond') < 0 ? t1 : t2
       } else {
         return t2
       }
     },
-    getTimeIntervalFromList (data) {
+    getTimeIntervalFromList(data) {
       // 获取最大时间间隔
-      // console.log(arguments)
       let startTime = null
       let endTime = null
       data.map(l => {
@@ -188,25 +187,24 @@ export default {
       })
       return [startTime, endTime]
     },
-    getOffsetColumn (row) {
+    getOffsetColumn(row) {
       // 获取横跨行数
       return dayjs(row.endTime).diff(dayjs(row.startTime), this.timeType) + 1
     },
-    getBarWidth (row) {
+    getBarWidth(row) {
       // 获取进度条宽度
       return this.getOffsetColumn(row) * this.cellWidth
     },
-    spanMethod ({ row, column }) {
-      // console.log(row, column)
+    spanMethod({ row, column }) {
       if (
         this.timeType === 'day' &&
-          column.property === dayjs(row.startTime).format('YYYY-MM-DD')
+        column.property === dayjs(row.startTime).format('YYYY-MM-DD')
       ) {
         let offset = this.getOffsetColumn(row) // 233
         return [1, offset]
       } else if (
         this.timeType === 'month' &&
-          column.property === dayjs(row.startTime).format('YYYY-MM')
+        column.property === dayjs(row.startTime).format('YYYY-MM')
       ) {
         let offset = this.getOffsetColumn(row) // 233
         return [1, offset]
@@ -215,22 +213,21 @@ export default {
       }
     },
     // eslint-disable-next-line no-unused-vars
-    handleResizeEnd (row, offsetColumn) {
+    handleResizeEnd(row, offsetColumn) {
       // 重置宽度结束
       row.endTime = row.endTime.add(offsetColumn, 'day')
       this.$emit('resized', row)
     },
-    handleDragEnd (row, offsetColumn) {
+    handleDragEnd(row, offsetColumn) {
       // 任务移动结束
       row.startTime = row.startTime.add(offsetColumn, 'day')
       row.endTime = row.endTime.add(offsetColumn, 'day')
       this.$emit('dragend', row)
     },
 
-    handleResizeMouseDown (evt, row) {
+    handleResizeMouseDown(evt, row) {
       evt.preventDefault()
       if (this.handleType === '') {
-        // console.log('startResize')
         this.handleType = 'resize'
         this.busy = true
         this.optionRow = row
@@ -241,10 +238,9 @@ export default {
         }
       }
     },
-    handleDragMouseDown (evt, row) {
+    handleDragMouseDown(evt, row) {
       evt.preventDefault()
       if (this.handleType === '') {
-        // console.log('startDrag')
         this.handleType = 'drag'
         this.busy = true
         this.optionRow = row
@@ -255,18 +251,18 @@ export default {
         }
       }
     },
-    handleResizeMouseUp (evt) {
+    handleResizeMouseUp(evt) {
       evt.preventDefault()
       if (this.handleType === 'resize') {
         let offsetX = evt.x - this.startPoint.x
         let offsetColumn = Math.round(offsetX / this.cellWidth)
-        // console.log(Math.abs(offsetColumn))
+
         if (Math.abs(offsetColumn) === 0) {
           // 重置宽度
           let tempWidth = this.getBarWidth(this.optionRow)
           this.target.childNodes[0].style.width = `${tempWidth}px`
           this.target.childNodes[1].style.left = `${tempWidth -
-              this.resizeWidth}px`
+            this.resizeWidth}px`
           let colspan = Math.round(tempWidth / this.cellWidth)
           this.target.parentNode.parentNode.setAttribute('colspan', colspan)
         } else {
@@ -275,7 +271,7 @@ export default {
         this.handleType = ''
         this.busy = false
         this.optionRow = null
-        // console.log('up')
+
       } else if (this.handleType === 'drag') {
         let offsetX = evt.x - this.startPoint.x
         let offsetColumn = Math.round(offsetX / this.cellWidth)
@@ -287,39 +283,33 @@ export default {
         this.handleType = ''
         this.busy = false
         this.optionRow = null
-        // console.log('up')
       }
     },
-    handleResizeMouseMove (evt) {
+    handleResizeMouseMove(evt) {
       if (this.handleType === 'resize') {
         evt.preventDefault()
-        // console.log('up', evt.x, '-', evt.y)
         let offsetX = evt.x - this.startPoint.x
         let tempWidth = this.getBarWidth(this.optionRow) + offsetX
-        // console.log(this.target)
+
         if (tempWidth > this.cellWidth) {
           this.target.childNodes[0].style.width = `${tempWidth}px`
           this.target.childNodes[1].style.left = `${tempWidth -
-              this.resizeWidth}px`
+            this.resizeWidth}px`
           let colspan = Math.round(tempWidth / this.cellWidth)
           this.target.parentNode.parentNode.setAttribute('colspan', colspan)
         }
         // this.target.style.transform = `translateX(${offsetX}px)`
-        // console.log(offsetX)
       } else if (this.handleType === 'drag') {
         evt.preventDefault()
-        // console.log('up', evt.x, '-', evt.y)
         let offsetX = evt.x - this.startPoint.x
         this.target.style.transform = `translateX(${offsetX}px)`
-        // console.log(offsetX)
       }
     },
-    getBarEl (createElement, scope) {
+    getBarEl(createElement, scope) {
       // 进度条EL
       let row = scope.row
       if (scope.column.property === dayjs(row.startTime).format('YYYY-MM-DD')) {
         let offset = this.getOffsetColumn(row)
-        // console.log(row.title, dayjs(row.startTime).format('YYYY-MM-DD'), offset)
         return createElement(
           'span',
           {
@@ -414,7 +404,7 @@ export default {
         })
       }
     },
-    getYearEl (createElement, scope) {
+    getYearEl(createElement, scope) {
       return createElement(
         'span',
         {
@@ -426,7 +416,7 @@ export default {
         'test'
       )
     },
-    getColumnEl (createElement, scope) {
+    getColumnEl(createElement, scope) {
       if (scope.slot) {
         if (scope.slot === 'expend') {
           // 展开列
@@ -472,7 +462,7 @@ export default {
         })
       }
     },
-    findParentEl (el, type) {
+    findParentEl(el, type) {
       // 获取父节点标签
       if (el.parentNode && el.parentNode.tagName === type) {
         return el.parentNode
@@ -482,7 +472,7 @@ export default {
         return null
       }
     },
-    getClassLevel (tr) {
+    getClassLevel(tr) {
       let className = tr.className.split(' ')
       let level = className
         .find(c => {
@@ -492,7 +482,7 @@ export default {
         .pop()
       return parseInt(level)
     },
-    checkChildrenRow (el, level) {
+    checkChildrenRow(el, level) {
       let isChildren = false
       if (el && el.className) {
         let cLevel = this.getClassLevel(el)
@@ -500,18 +490,15 @@ export default {
       }
       return isChildren
     },
-    getChildrenRow (tr, level) {
+    getChildrenRow(tr, level) {
       let childrenNodes = []
-      // console.log(level)
-      // console.log(tr.nextSibling.className.indexOf('el-table__row--level-' + level))
       while (this.checkChildrenRow(tr.nextSibling, level)) {
         childrenNodes.push(tr.nextSibling)
         tr = tr.nextSibling
       }
       return childrenNodes
     },
-    getExpendEl (createElement, scope) {
-      // console.log(scope)
+    getExpendEl(createElement, scope) {
       return createElement(
         'span',
         {
@@ -519,14 +506,13 @@ export default {
           style: {},
           on: {
             click: evt => {
-              // console.log('expend', evt)
               let tr = this.findParentEl(evt.target, 'TR')
               let level = this.getClassLevel(tr)
               let childrenNodes = this.getChildrenRow(tr, level)
               let className = tr.className.split(' ')
               if (
                 childrenNodes.length > 0 &&
-                  tr.className.indexOf('expanded') >= 0
+                tr.className.indexOf('expanded') >= 0
               ) {
                 // 关闭
                 childrenNodes.map(c => {
@@ -546,7 +532,6 @@ export default {
                   tr.className = className.join(' ')
                 }
               }
-              // console.log(childrenNodes)
               // if (tr && tr.nextSibling) {
               //   if (tr.nextSibling.style.display && tr.nextSibling.style.display === 'none') {
               //     tr.nextSibling.style.display = 'table-row'
@@ -562,16 +547,14 @@ export default {
         scope.row.id
       )
     },
-    getTable (createElement) {}
+    getTable(createElement) { }
   },
 
   render: function (createElement) {
-    console.log('render')
     let columns = this.columns.concat(this.timeColumns)
     let children = columns.map(c => {
       return this.getColumnEl(createElement, c)
     })
-    // console.log('getTable')
     return createElement(
       'el-table',
       {
@@ -597,55 +580,62 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="css">
-  .el-table .is-bar {
-    padding: 0;
-  }
-  .el-table .is-bar .cell {
-    position: relative;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
-  .bar {
-    display: inline-block;
-    position: relative;
-    height: 100%;
-    z-index: 1;
-    color: white;
-  }
-  .bar-inner {
-    position: absolute;
-    background-color: rebeccapurple;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    z-index: 100;
-  }
-  .bar-resize {
-    position: absolute;
-    background-color: blue;
-    top: 0;
-    bottom: 0;
-    z-index: 101;
-  }
-  /* td {
+.el-table .is-bar {
+  padding: 0;
+}
+
+.el-table .is-bar .cell {
+  position: relative;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.bar {
+  display: inline-block;
+  position: relative;
+  height: 100%;
+  z-index: 1;
+  color: white;
+}
+
+.bar-inner {
+  position: absolute;
+  background-color: rebeccapurple;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.bar-resize {
+  position: absolute;
+  background-color: blue;
+  top: 0;
+  bottom: 0;
+  z-index: 101;
+}
+
+/* td {
             background-color: transparent !important;
           }
           tr.hover-row .current-row td {
             background-color: transparent !important;
           } */
-  .el-table__body tr:hover > td {
-    background-color: transparent !important;
-  }
-  .el-table__header .is-year {
-    text-align: center;
-  }
-  .el-table__header .is-month {
-    text-align: center;
-  }
-  .el-table__header .is-day {
-    text-align: center;
-  }
-</style>
+.el-table__body tr:hover>td {
+  background-color: transparent !important;
+}
+
+.el-table__header .is-year {
+  text-align: center;
+}
+
+.el-table__header .is-month {
+  text-align: center;
+}
+
+.el-table__header .is-day {
+  text-align: center;
+}</style>

@@ -1,19 +1,12 @@
 <template>
-  <resizable class="header-item"
-             :left="0"
-             :minLeft="0"
-             :maxLeft="0"
-             :active="['r']"
-             :width="localColumn.width"
-             @resize:start="resizeMove"
-             @resize:move="resizeMove">
+  <resizable class="header-item" :left="0" :minLeft="0" :maxLeft="0" :active="['r']" :width="localColumn.width"
+    @resize:start="resizeMove" @resize:move="resizeMove">
     <div :style="{ width: localColumn.width + 'px' }">
       <div class="cell">
         {{ localColumn.label }}
       </div>
     </div>
   </resizable>
-
 </template>
 
 <script>
@@ -25,7 +18,7 @@ export default {
   props: {
     column: {
       type: Object,
-      default () {
+      default() {
         return {}
       }
     }
@@ -36,24 +29,22 @@ export default {
   watch: {
     column: {
       immediate: true,
-      handler () {
+      handler() {
         this.localColumn = JSON.parse(JSON.stringify(this.column))
       }
     }
   },
-  data () {
+  data() {
     return {
       localColumn: {}
     }
   },
   methods: {
-    resizeMove (arg) {
-      // console.log(arguments)
+    resizeMove(arg) {
       this.$emit('sizeChange', arg)
     }
   }
 }
 </script>
 
-<style>
-</style>
+<style></style>

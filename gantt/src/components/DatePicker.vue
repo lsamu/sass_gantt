@@ -3,34 +3,25 @@
     <div class="header">
       <div class="day-select">
         <div class="left">
-          <i @click="prevYear"
-             class="el-icon-d-arrow-left"></i>
-          <i v-if="type === 'day'"
-             class="el-icon-arrow-left"
-             @click="prevMonth"></i>
+          <i @click="prevYear" class="el-icon-d-arrow-left"></i>
+          <i v-if="type === 'day'" class="el-icon-arrow-left" @click="prevMonth"></i>
 
         </div>
         <div class="now">
-          <span v-if="type==='year'"> {{headerYears}}</span>
-          <span v-if="type !== 'year'"
-                @click="type = 'year'"> {{this.startDate.format('YYYY')}}年</span>
-          <span @click="type = 'month'"
-                v-if="type === 'day'"> {{this.startDate.format('MM')}}月</span>
+          <span v-if="type === 'year'"> {{ headerYears }}</span>
+          <span v-if="type !== 'year'" @click="type = 'year'"> {{ this.startDate.format('YYYY') }}年</span>
+          <span @click="type = 'month'" v-if="type === 'day'"> {{ this.startDate.format('MM') }}月</span>
         </div>
         <div class="right">
 
-          <i class="el-icon-arrow-right"
-             v-if="type === 'day'"
-             @click="nextMonth"></i>
-          <i @click="nextYear"
-             class="el-icon-d-arrow-right"></i>
+          <i class="el-icon-arrow-right" v-if="type === 'day'" @click="nextMonth"></i>
+          <i @click="nextYear" class="el-icon-d-arrow-right"></i>
 
         </div>
       </div>
     </div>
     <div class="container">
-      <table v-if="type === 'day'"
-             class="day-table">
+      <table v-if="type === 'day'" class="day-table">
         <thead>
           <th>日</th>
           <th>一</th>
@@ -41,24 +32,19 @@
           <th>六</th>
         </thead>
         <tbody>
-          <tr v-for="(tr, index) in tableDays"
-              :key="index">
-            <td v-for="(td, tdIndex) in tr"
-                :key="tdIndex"
-                :class="{
-                   out: td.date.format('MM') != startDate.format('MM') ,
-                 active: selected && (td.date.format('YYYY-MM-DD') === selected.format('YYYY-MM-DD'))
-                  }"
-                @click="handleSelectDay(td)">
-              <div class="cell"> {{td.label}}
+          <tr v-for="(tr, index) in tableDays" :key="index">
+            <td v-for="(td, tdIndex) in tr" :key="tdIndex" :class="{
+              out: td.date.format('MM') != startDate.format('MM'),
+              active: selected && (td.date.format('YYYY-MM-DD') === selected.format('YYYY-MM-DD'))
+            }" @click="handleSelectDay(td)">
+              <div class="cell"> {{ td.label }}
               </div>
             </td>
           </tr>
 
         </tbody>
       </table>
-      <table v-else-if="type === 'month'"
-             class="month-table">
+      <table v-else-if="type === 'month'" class="month-table">
 
         <tbody>
           <tr>
@@ -105,16 +91,12 @@
           </tr>
         </tbody>
       </table>
-      <table v-else-if="type === 'year'"
-             class="month-table">
+      <table v-else-if="type === 'year'" class="month-table">
 
         <tbody>
-          <tr v-for="(tr, index) in tableYears"
-              :key="index">
-            <td v-for="(td, tdIndex) in tr"
-                :key="tdIndex"
-                @click="handleSelectYear(td)">
-              {{td.label}}
+          <tr v-for="(tr, index) in tableYears" :key="index">
+            <td v-for="(td, tdIndex) in tr" :key="tdIndex" @click="handleSelectYear(td)">
+              {{ td.label }}
             </td>
           </tr>
 
@@ -138,12 +120,12 @@ export default {
   props: {
     value: {
       type: [Object, Number, String],
-      default () {
+      default() {
         return dayjs()
       }
     }
   },
-  data () {
+  data() {
     return {
       type: 'day',
       selected: dayjs(),
@@ -151,7 +133,7 @@ export default {
     }
   },
   computed: {
-    days () {
+    days() {
       let startDate = this.startDate.startOf('month')
       let endDate = this.startDate.endOf('month')
       if (endDate.day() === 0) {
@@ -171,7 +153,7 @@ export default {
       }
       return days
     },
-    tableDays () {
+    tableDays() {
       let result = []
       for (var i = 0; i < this.days.length; i += 7) {
         let row = this.days.slice(i, i + 7)
@@ -179,7 +161,7 @@ export default {
       }
       return result
     },
-    years () {
+    years() {
       let result = []
       let year = this.startDate.year()
       year = Math.floor(year / 10) * 10
@@ -192,7 +174,7 @@ export default {
 
       return result
     },
-    tableYears () {
+    tableYears() {
       let result = []
       for (var i = 0; i < this.years.length; i += 4) {
         let row = this.years.slice(i, i + 4)
@@ -200,39 +182,39 @@ export default {
       }
       return result
     },
-    headerYears () {
+    headerYears() {
       return this.years[0].label + '-' + this.years[this.years.length - 1].label
     }
   },
   watch: {
     value: {
       immediate: true,
-      handler () {
+      handler() {
         this.refresh()
       }
     }
   },
   methods: {
-    refresh () {
+    refresh() {
       this.selected = dayjs(this.value)
       this.startDate = this.selected.startOf('month')
     },
-    handleSelectDay (item) {
+    handleSelectDay(item) {
       if (item.date.month() !== this.startDate.month()) {
         this.startDate = item.date
       }
       // this.selected = item.date
       this.$emit('input', item.date)
     },
-    handleSelectMonth (month) {
+    handleSelectMonth(month) {
       this.startDate = this.startDate.month(month)
       this.type = 'day'
     },
-    handleSelectYear (year) {
+    handleSelectYear(year) {
       this.startDate = this.startDate.year(year.label)
       this.type = 'month'
     },
-    prevYear () {
+    prevYear() {
       if (this.type !== 'year') {
         this.startDate = this.startDate.add(-1, 'year')
       } else {
@@ -240,11 +222,11 @@ export default {
 
       }
     },
-    prevMonth () {
+    prevMonth() {
       this.startDate = this.startDate.add(-1, 'month')
 
     },
-    nextYear () {
+    nextYear() {
       if (this.type !== 'year') {
         this.startDate = this.startDate.add(1, 'year')
       } else {
@@ -252,7 +234,7 @@ export default {
 
       }
     },
-    nextMonth () {
+    nextMonth() {
       this.startDate = this.startDate.add(1, 'month')
 
     }
@@ -267,26 +249,32 @@ export default {
   width: 300px;
   text-align: center;
 }
+
 .day-table,
 .month-table,
 .year-table {
   width: 100%;
 }
+
 .date-picker .container th {
   padding: 10px 0;
 }
+
 .date-picker .container td {
   cursor: pointer;
   text-align: center;
   padding: 10px 0;
 }
+
 .date-picker .container td.out {
   color: #c0c4cc;
 }
+
 .date-picker .container td .cell {
   margin: 0 auto;
   padding: 1px 3px;
 }
+
 .date-picker .container td.active .cell,
 .date-picker .container td.active:hover .cell {
   display: inline-block;
@@ -294,31 +282,39 @@ export default {
   background-color: #1989fa;
   color: white;
 }
+
 .date-picker .container td:hover {
   color: #1989fa;
 }
+
 .date-picker .header .now span {
   cursor: pointer;
 }
+
 .date-picker .header .now span:hover {
   color: #1989fa;
 }
+
 .date-picker .header .day-select {
   position: relative;
   margin: 10px 0;
 }
+
 .date-picker .header .day-select .left {
   position: absolute;
   left: 10px;
 }
+
 .date-picker .header .day-select .right {
   position: absolute;
   right: 10px;
   top: 0;
 }
+
 .date-picker .header .day-select i {
   cursor: pointer;
 }
+
 .date-picker .header .day-select i:hover {
   color: #1989fa;
 }
