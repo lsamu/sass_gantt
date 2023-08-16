@@ -134,9 +134,9 @@ export default {
    * 甘特图表的每一列宽度
    */
   ganttColumnSize: {
-    type: String as PropType<GanttColumnSize>,
+    type: String as PropType<any>,
     default: 'normal',
-    validator: (v: GanttColumnSize) => {
+    validator: (v: any) => {
       return ['small', 'normal', 'large'].includes(v);
     }
   },
@@ -171,7 +171,7 @@ export default {
    * 头部样式，一个对象
    */
   headerStyle: {
-    type: Object as PropType<HeaderOptions>,
+    type: Object as PropType<any>,
     default: () => {
       return {};
     }
@@ -181,7 +181,7 @@ export default {
    * 内容样式，一个对象
    */
   bodyStyle: {
-    type: Object as PropType<BodyOptions>,
+    type: Object as PropType<any>,
     default: () => {
       return {};
     }
@@ -207,9 +207,9 @@ export default {
    * 日期单位
    */
   unit: {
-    type: String as PropType<HeaderDateUnit>,
+    type: String as PropType<any>,
     default: 'day',
-    validator: (v: HeaderDateUnit) => {
+    validator: (v: any) => {
       return ['month', 'week', 'day', 'hour'].includes(v);
     }
   },
@@ -234,7 +234,7 @@ export default {
    * 允许拖拽
    */
   draggable: {
-    type: [Object, Boolean] as PropType<boolean | Partial<DraggableOptions>>,
+    type: [Object, Boolean] as PropType<boolean | Partial<any>>,
     default: false
   },
 
@@ -251,7 +251,7 @@ export default {
    */
   holidays: {
     type: Array as PropType<
-      Array<{ date: LikeDate | LikeDate[]; color?: string }>
+      Array<{ date: any | any[]; color?: string }>
     >,
     default: () => []
   }

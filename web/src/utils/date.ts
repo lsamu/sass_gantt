@@ -48,7 +48,7 @@ export function updateLocaleData() {
  * @param date 所在月的日期，用于计算月份的时间
  * @returns
  */
-export function getMillisecondBy(unit: HeaderDateUnit, date?: Date | number) {
+export function getMillisecondBy(unit: any, date?: Date | number) {
   if (unit === 'month') {
     return dayjs(date).daysInMonth() * Variables.time.millisecondOf.day;
   }
@@ -59,7 +59,7 @@ export function getMillisecondBy(unit: HeaderDateUnit, date?: Date | number) {
 /**
  * 根据传入的单位，获取内部支持的基本单位
  */
-export function baseUnit(unit: HeaderDateUnit) {
+export function baseUnit(unit: any) {
   switch (unit) {
     case 'hour':
       return 'hour';

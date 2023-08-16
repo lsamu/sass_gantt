@@ -1,15 +1,14 @@
-import { type LinkProps } from '@/typings/link';
 import { uuid } from '@/utils/common';
 import type RowItem from './row';
 
 export class LinkItem {
-  originLink: LinkProps;
+  originLink: any;
   fromRow: RowItem;
   toRow: RowItem;
   uuid: string;
   color: string;
 
-  constructor(link: LinkProps, from: RowItem, to: RowItem) {
+  constructor(link: any, from: RowItem, to: RowItem) {
     this.uuid = uuid();
 
     this.originLink = link;
@@ -23,7 +22,7 @@ export default class AllLinks {
   /**
    * 原始数据集合（全部）
    */
-  originLinks: LinkProps[] = [];
+  originLinks: any[] = [];
 
   /**
    * 内部使用代理数据（只有展示的）
@@ -34,7 +33,7 @@ export default class AllLinks {
    * 初始化数据
    * @param data 展示的数据集合
    */
-  init(data: RowItem[], links: LinkProps[]) {
+  init(data: RowItem[], links: any[]) {
     this.originLinks = links;
     this.links = this.createLinks(data, links);
   }
@@ -42,7 +41,7 @@ export default class AllLinks {
   /**
    * 创建连线数据
    */
-  createLinks(data: RowItem[], links: LinkProps[]) {
+  createLinks(data: RowItem[], links: any[]) {
     return links
       .map(link => {
         const from = data.find(d => d.id === link.from);
@@ -61,14 +60,14 @@ export default class AllLinks {
    * @param data 展示的数据集合
    * @param links 新数据（原始）。如果不传，则使用原始数据更新当前已有
    */
-  update(data: RowItem[], links?: LinkProps[]) {
+  update(data: RowItem[], links?: any[]) {
     this.init(data, links ?? this.originLinks);
   }
 
   /**
    * 创建一条连线
    */
-  createLink(from: RowItem, to: RowItem): LinkProps | null {
+  createLink(from: RowItem, to: RowItem): any | null {
     if (
       from.uuid === to.uuid ||
       this.links.some(
@@ -88,7 +87,7 @@ export default class AllLinks {
   /**
    * 添加一条连线
    */
-  addLink(link: LinkProps, from: RowItem, to: RowItem) {
+  addLink(link: any, from: RowItem, to: RowItem) {
     if (!link.from || !link.to) return;
     if (this.originLinks.some(l => l.from === link.from && l.to === link.to))
       return;
@@ -100,7 +99,7 @@ export default class AllLinks {
   /**
    * 更新一条连线
    */
-  updateLink(link: LinkProps) {
+  updateLink(link: any) {
     if (!link.from || !link.to) return;
 
     const index = this.originLinks.findIndex(

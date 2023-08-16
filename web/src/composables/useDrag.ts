@@ -10,7 +10,7 @@ interface DragOptions {
   onMove?: (x: number, pos: Position, e: PointerEvent) => void;
   onEnd?: (x: number, pos: Position, e: PointerEvent) => Promise<void> | void;
   onFinally?: () => void;
-  target?: El;
+  target?: any;
   reset?: boolean;
   disabled?: () => boolean;
 }
@@ -18,7 +18,7 @@ interface DragOptions {
 export default () => {
   const { moveLineLeft, moveLineMousedown } = useStore();
 
-  function onDrag(el: Ref<El>, options: DragOptions = {}) {
+  function onDrag(el: Ref<any>, options: DragOptions = {}) {
     const left = ref(0);
     const delta = ref(0);
 
@@ -69,7 +69,7 @@ export default () => {
   const { rootRef } = useRoot();
 
   function onResizeTableColumn(
-    el: Ref<El>,
+    el: Ref<any>,
     options: {
       onEnd?: (x: number) => void;
       preMove?: (x: number, clientX: number) => boolean;

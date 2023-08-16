@@ -7,7 +7,6 @@
  */
 
 import { Variables } from '@/constants/vars';
-import { type MoveSliderInternalData } from '@/typings/data';
 import { addIfNotExist, uuid } from '@/utils/common';
 import { baseUnit, getMillisecondBy } from '@/utils/date';
 import { cloneDeep, isEqual } from 'lodash';
@@ -52,7 +51,7 @@ export default class RowItem {
   /**
    * 数据属性
    */
-  options: Required<DataOptions> = {
+  options: Required<any> = {
     isExpand: false,
     startLabel: Variables.default.startKey,
     endLabel: Variables.default.endKey,
@@ -149,7 +148,7 @@ export default class RowItem {
    */
   init(
     data: any,
-    options: DataOptions,
+    options: any,
     index: number,
     level: number,
     parentPath: number[],
@@ -214,9 +213,9 @@ export default class RowItem {
    */
   setStart(
     date: XDate,
-    unit: HeaderDateUnit,
+    unit: any,
     linkage = false,
-    modifyArr?: MoveSliderInternalData[]
+    modifyArr?: any[]
   ) {
     this.__oldStart = new XDate(this.__data[this.options.startLabel]);
     this.__oldEnd = new XDate(this.__data[this.options.endLabel]);
@@ -243,7 +242,7 @@ export default class RowItem {
         // 赋值应该给data的日期数据赋值
         pNode.setStart(this.start, unit);
         modifyArr &&
-          addIfNotExist<MoveSliderInternalData>(
+          addIfNotExist<any>(
             modifyArr,
             {
               row: pNode,
@@ -266,9 +265,9 @@ export default class RowItem {
 
   setEnd(
     date: XDate,
-    unit: HeaderDateUnit,
+    unit: any,
     linkage = false,
-    modifyArr?: MoveSliderInternalData[]
+    modifyArr?: any[]
   ) {
     this.__oldStart = new XDate(this.__data[this.options.startLabel]);
     this.__oldEnd = new XDate(this.__data[this.options.endLabel]);
@@ -293,7 +292,7 @@ export default class RowItem {
       if (this.end.compareTo(pNode.end) === 'r') {
         pNode.setEnd(this.end, unit);
         modifyArr &&
-          addIfNotExist<MoveSliderInternalData>(
+          addIfNotExist<any>(
             modifyArr,
             {
               row: pNode,
@@ -322,8 +321,8 @@ export default class RowItem {
   private __setChildrenDate(
     node: RowItem,
     key: 'start' | 'end',
-    unit: HeaderDateUnit,
-    modifyArr?: MoveSliderInternalData[]
+    unit: any,
+    modifyArr?: any[]
   ) {
     for (let i = 0; i < node.children.length; i++) {
       const c = node.children[i];
@@ -331,7 +330,7 @@ export default class RowItem {
         if (c.start.compareTo(node.start) === 'l') {
           c.setStart(node.start, unit);
           modifyArr &&
-            addIfNotExist<MoveSliderInternalData>(
+            addIfNotExist<any>(
               modifyArr,
               {
                 row: c,
@@ -348,7 +347,7 @@ export default class RowItem {
         if (c.end.compareTo(node.end) === 'r') {
           c.setEnd(node.end, unit);
           modifyArr &&
-            addIfNotExist<MoveSliderInternalData>(
+            addIfNotExist<any>(
               modifyArr,
               {
                 row: c,

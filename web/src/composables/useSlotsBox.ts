@@ -20,7 +20,7 @@ export default () => {
   const { toRowData } = useData();
 
   function isMerge(
-    m: boolean | undefined | ((data: RowData) => boolean),
+    m: boolean | undefined | ((data: any) => boolean),
     data: RowItem
   ) {
     return typeof m === 'function' ? m(toRowData(data)) : !!m;

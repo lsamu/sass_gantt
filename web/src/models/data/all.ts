@@ -56,7 +56,7 @@ export default class AllData {
   /**
    * 初始化数据
    */
-  init(data: any[], options: DataOptions = {}) {
+  init(data: any[], options: any = {}) {
     this.originData = data;
     this.data = this.createData(data, [], options);
     this.__flatten();
@@ -74,7 +74,7 @@ export default class AllData {
   private createData(
     data: any[],
     parentPath: number[],
-    options: DataOptions,
+    options: any,
     level = 0,
     parentNode: RowItem | null = null
   ) {
@@ -104,7 +104,7 @@ export default class AllData {
     parentPath: number[],
     level: number,
     parentNode: RowItem | null,
-    options: DataOptions
+    options: any
   ) {
     const row = new RowItem();
     row.init(item, options, index, level, parentPath, parentNode);
@@ -155,7 +155,7 @@ export default class AllData {
    * @param data 新数据（原始）
    * @param options 属性
    */
-  update(data: any[], options: DataOptions = {}) {
+  update(data: any[], options: any = {}) {
     this.__level = 0;
     this.start = undefined;
     this.end = undefined;
@@ -174,7 +174,7 @@ export default class AllData {
   private __diff(
     data: RowItem[],
     news: any[],
-    options: DataOptions = {},
+    options: any = {},
     parentNode: RowItem | null = null
   ) {
     let i = 0;

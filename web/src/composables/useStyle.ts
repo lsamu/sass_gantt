@@ -19,7 +19,7 @@ export default () => {
     b: 0,
     a: 50
   }));
-  const darkWrap = (color: string, darkColor: string | Rgba) => {
+  const darkWrap = (color: string, darkColor: string | any) => {
     return blend(darkColor, color);
   };
 

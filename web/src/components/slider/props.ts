@@ -44,9 +44,9 @@ export default {
    * 接收 left, center, right
    */
   alignment: {
-    type: String as PropType<SliderAlignment>,
+    type: String as PropType<any>,
     default: 'left',
-    validator: (v: SliderAlignment) => {
+    validator: (v: any) => {
       return ['left', 'center', 'right'].includes(v);
     }
   },
@@ -56,7 +56,7 @@ export default {
    */
   move: {
     type: [Function, Boolean] as PropType<
-      boolean | ((data: RowData) => boolean)
+      boolean | ((data: any) => boolean)
     >,
     default: () => false
   },
@@ -73,7 +73,7 @@ export default {
    */
   resizeLeft: {
     type: [Function, Boolean] as PropType<
-      boolean | ((data: RowData) => boolean)
+      boolean | ((data: any) => boolean)
     >,
     default: () => false
   },
@@ -83,7 +83,7 @@ export default {
    */
   resizeRight: {
     type: [Function, Boolean] as PropType<
-      boolean | ((data: RowData) => boolean)
+      boolean | ((data: any) => boolean)
     >,
     default: () => false
   },

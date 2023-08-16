@@ -6,8 +6,6 @@
 import { defineComponent, ref, useSlots } from 'vue';
 import { initStore } from '@/store';
 import Root from './index.vue';
-import { MoveSliderData } from '@/typings/data';
-import { LinkProps } from '@/typings/link';
 
 export default defineComponent({
   name: 'RootWrap',
@@ -23,14 +21,14 @@ const emit = defineEmits<{
   (e: 'row-click', data: any): void;
   (e: 'row-dbl-click', data: any): void;
   (e: 'row-checked', state: boolean, data: any, list: any[]): void;
-  (e: 'move-slider', data: MoveSliderData[]): void;
+  (e: 'move-slider', data: any[]): void;
   (
     e: 'add-link',
-    link: LinkProps,
+    link: any,
     data: { from: any; to: any },
-    cb: (link: LinkProps) => void
+    cb: (link: any) => void
   ): void;
-  (e: 'click-link', link: LinkProps | null): void;
+  (e: 'click-link', link: any | null): void;
   (e: 'no-date-error', date: Date): void;
 }>();
 

@@ -1,7 +1,7 @@
 <template>
 
 
-  <div
+  <!-- <div
     style="
       display: flex;
       justify-content: center;
@@ -21,7 +21,7 @@
     >
       多页
     </button>
-  </div>
+  </div> -->
 
   <div v-if="!isMulti" aria-label="单页">
     <div style="height: 400px; padding-bottom: 10px">
@@ -105,7 +105,6 @@
             <div>
               <div>name---{{ data }}</div>
               <div>line2</div>
-              <!-- <div>{{ a }}</div> -->
             </div>
           </template>
         </XGanttColumn>
@@ -188,7 +187,7 @@
     <button @click="changeUnit1">切换单位</button>
     <button @click="() => (useProgress = !useProgress)">使用进度</button>
   </div>
-
+<!-- 
   <div v-else aria-label="多页">
     <div style="padding-bottom: 10px">
       <div style="font-size='12px'">
@@ -374,7 +373,7 @@
         <button @click="() => (colSize3 = 'large')">大</button>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div class="tip-text">按 F12 打开控制台以查看事件输出内容。</div>
 

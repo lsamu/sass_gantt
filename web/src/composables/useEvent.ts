@@ -1,6 +1,4 @@
 import useStore from '@/store';
-import { type MoveSliderData } from '@/typings/data';
-import { type LinkProps } from '@/typings/link';
 import { toRaw } from 'vue';
 
 export default () => {
@@ -42,7 +40,7 @@ export default () => {
    * 移动滑块事件
    * @param data 移动的所有原始数据集合（时间已被更新）。每一行包含旧时间
    */
-  function EmitMoveSlider(data: MoveSliderData[]) {
+  function EmitMoveSlider(data: any[]) {
     rootEmit.value?.(
       'move-slider',
       data.map(item => {
@@ -58,9 +56,9 @@ export default () => {
    * 添加连线事件
    */
   function EmitAddLink(
-    link: LinkProps,
+    link: any,
     data: { from: any; to: any },
-    cb: (link: LinkProps) => void
+    cb: (link: any) => void
   ) {
     rootEmit.value?.(
       'add-link',
@@ -73,7 +71,7 @@ export default () => {
   /**
    * 点击连线事件
    */
-  function EmitClickLink(link: LinkProps | null) {
+  function EmitClickLink(link: any | null) {
     rootEmit.value?.('click-link', link ? toRowData(link) : null);
   }
 

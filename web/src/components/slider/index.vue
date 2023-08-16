@@ -130,7 +130,6 @@ import useStyle from '@/composables/useStyle';
 import { baseUnit, day } from '@/utils/date';
 import { flow, isBoolean, isFunction, isNumber } from 'lodash';
 import useEvent from '@/composables/useEvent';
-import { MoveSliderInternalData } from '@/typings/data';
 import useLinks from '@/composables/useLinks';
 import useElement from '@/composables/useElement';
 import useSlotsBox from '@/composables/useSlotsBox';
@@ -186,7 +185,7 @@ const sliderWidth = computed(
 // #endregion
 
 // #region 移动滑块
-const calcMove = (p: boolean | ((data: RowData) => boolean)) => {
+const calcMove = (p: boolean | ((data: any) => boolean)) => {
   if (isBoolean(p)) return p;
   if (isFunction(p)) {
     return p(toRowData(props.data!));
@@ -211,7 +210,7 @@ onMounted(() => {
 
 // 移动过的对象数组
 const { EmitMoveSlider } = useEvent();
-let movedData: MoveSliderInternalData[] = [];
+let movedData: any[] = [];
 function EmitMove() {
   movedData.unshift({
     row: props.data!,
